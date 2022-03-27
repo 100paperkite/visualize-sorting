@@ -1,38 +1,55 @@
 import NodeArray from './components/NodeArray.js';
-
-const $ = (selector) => document.querySelector(selector);
-
-const randomInt = (min = 0, max = 100) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
-const sortAlgorithms = ['bubble'];
+import { BubbleSort } from './algorithms.js';
+import { $, randomInt } from './utils.js';
 
 class App {
   constructor() {
-    this.sortAlgorithms = sortAlgorithms;
-
     this.initalize();
   }
 
   initalize() {
-    const $algoSelect = $('#sort-algo-select');
     const $randomNodeBtn = $('#random-node-btn');
+    const $runAlgoBtn = $('#run-algo-btn');
     const $display = $('#display');
-    const algoOptionTemplate = sortAlgorithms.map((algo) => `<option>${algo}</option>`).join('');
-    $algoSelect.insertAdjacentHTML('beforeend', algoOptionTemplate);
 
     $randomNodeBtn.addEventListener('click', () => {
       const randomNumbers = Array.from({ length: 10 }, () => randomInt());
-      const array = new NodeArray(randomNumbers);
-      $display.innerHTML = array.render();
+      this.array = new NodeArray(randomNumbers);
+      $display.innerHTML = this.array.render();
+    });
+
+    $runAlgoBtn.addEventListener('click', (event) => {
+      const algoName = event.target.parentNode.querySelector('select').value;
+      this.run(algoName, 500);
     });
   }
 
-  run(algorithm) {}
+  run(algorithm, timeSpan) {
+    let stepIter = null;
+
+    switch (algorithm) {
+      case 'bubble':
+        stepIter = BubbleSort(this.array);
+        break;
+
+      default:
+        console.log(`${algorithm}은 구현되지 않았습니다.`);
+    }
+
+    // timespan 마다 실행.
+    const interval = setInterval(() => {
+      const res = stepIter.next();
+
+      /**
+       * @todo 현재 매번 렌더링하는데 바뀐 부분만 렌더링하도록 변경하기
+       */
+      $('#display').innerHTML = this.array.render();
+
+      if (res.done) {
+        clearInterval(interval);
+      }
+    }, timeSpan);
+  }
 }
 
 export default App;

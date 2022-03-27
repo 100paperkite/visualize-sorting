@@ -1,6 +1,7 @@
 :root {
   --gray-1: rgb(241 245 249);
   --gray-2: rgb(226 232 240);
+  --green-1: rgb(220 252 231);
 }
 
 body {
@@ -29,8 +30,12 @@ header {
 
 .node {
   background-color: var(--gray-1);
-  border-radius: 8px;
-  padding: 10px 30px;
+  border-radius: 15px;
+  padding: 20px 30px;
   font-size: 24px;
   text-align: center;
+}
+
+.node.selected {
+  background-color: var(--green-1);
 }
