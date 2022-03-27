@@ -1,0 +1,36 @@
+:root {
+  --gray-1: rgb(241 245 249);
+  --gray-2: rgb(226 232 240);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  padding: 15px 20px;
+  background-color: var(--gray-2);
+}
+
+#display {
+  margin: auto 10px;
+}
+
+.node-array {
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.node {
+  background-color: var(--gray-1);
+  border-radius: 8px;
+  padding: 10px 30px;
+  font-size: 24px;
+  text-align: center;
+}
