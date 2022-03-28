@@ -1,45 +1,81 @@
 :root {
   --gray-1: rgb(241 245 249);
   --gray-2: rgb(226 232 240);
+  --gray-3: rgb(209 213 219);
+  --gray-4: rgb(156 163 175);
+  --gray-8: rgb(31 41 55);
   --green-1: rgb(220 252 231);
+  --red-1: rgb(255 228 230);
+  --red-2: rgb(254 205 211);
 }
 
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   min-height: 100vh;
   margin: 0;
 }
 
 header {
   display: flex;
+  margin-top: 10px;
   padding: 15px 20px;
-  background-color: var(--gray-2);
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+button {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--gray-1);
+}
+
+select {
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  font-size: 18px;
+  background-color: var(--red-1);
+}
+
+select:focus {
+  outline: 0;
+  border-color: var(--gray-3);
 }
 
 #display {
-  margin: auto 10px;
+  margin-top: auto;
+  margin-bottom: 50vh;
+  border-radius: 15px;
 }
 
 .node-array {
-  margin: 30px;
+  margin: auto 10px;
   display: flex;
-  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .node {
-  background-color: var(--gray-1);
-  border-radius: 15px;
+  background-color: var(--gray-2);
+  border-radius: 5px;
+  margin: 10px;
   padding: 20px 30px;
-  font-size: 24px;
   text-align: center;
+  width: 30px;
 }
 
 .node.compared {
-  background-color: var(--gray-2);
+  background-color: var(--gray-3);
 }
 
 .node.swapped {
-  background-color: var(--green-1);
+  background-color: var(--red-1);
 }

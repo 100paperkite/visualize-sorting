@@ -9,6 +9,7 @@ class Node {
   initElement(value) {
     this.$element = document.createElement('div');
     this.$element.classList.add('node');
+    this.$element.style.height = `${value}px`;
     this.$element.appendChild(document.createTextNode(value));
   }
 
