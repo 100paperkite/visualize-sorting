@@ -36,6 +36,10 @@ header {
   text-align: center;
 }
 
-.node.selected {
+.node.compared {
+  background-color: var(--gray-2);
+}
+
+.node.swapped {
   background-color: var(--green-1);
 }

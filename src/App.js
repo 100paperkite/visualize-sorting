@@ -40,10 +40,10 @@ class App {
     // timespan 마다 실행.
     const interval = setInterval(() => {
       const res = stepIter.next();
-      console.log(`step: ${res.value}`);
 
       if (res.done) {
         clearInterval(interval);
+        console.log(`total step: ${res.value}`);
       }
     }, timeSpan);
   }

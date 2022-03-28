@@ -1,7 +1,8 @@
 import Node from './Node.js';
+import NodeState from './NodeState.js';
 
 class NodeArray {
-  #selected = [];
+  #prevNodes = [];
 
   constructor(numbers) {
     this.initElement(numbers);
@@ -19,15 +20,21 @@ class NodeArray {
     this.nodes.forEach((node) => this.$element.appendChild(node.$element));
   }
 
-  select(indexes) {
-    this.#selected.forEach((index) => this.nodes[index].unselect());
-    this.#selected = indexes;
-    indexes.forEach((index) => this.nodes[index].select());
+  updateState(i, j, state) {
+    this.#prevNodes.forEach((index) => (this.nodes[index].state = NodeState.NONE));
+    this.nodes[i].state = state;
+    this.nodes[j].state = state;
+    this.#prevNodes = [i, j];
+  }
+
+  compare(i, j, comparator) {
+    this.updateState(i, j, NodeState.COMPARED);
+    return comparator(this.nodes[i], this.nodes[j]);
   }
 
   swap(i, j) {
+    this.updateState(i, j, NodeState.SWAPPED);
     this.$element.insertBefore(this.nodes[j].$element, this.nodes[i].$element);
-    this.select([i, j]);
 
     // @todo animation
     const temp = this.nodes[i];
