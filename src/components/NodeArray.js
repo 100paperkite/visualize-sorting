@@ -4,11 +4,19 @@ class NodeArray {
   #selected = [];
 
   constructor(numbers) {
-    this.nodes = numbers.map((x) => new Node(x));
+    this.initElement(numbers);
   }
 
   get length() {
     return this.nodes.length;
+  }
+
+  initElement(numbers) {
+    this.$element = document.createElement('div');
+    this.$element.classList.add('node-array');
+
+    this.nodes = numbers.map((number) => new Node(number));
+    this.nodes.forEach((node) => this.$element.appendChild(node.$element));
   }
 
   select(indexes) {
@@ -18,15 +26,13 @@ class NodeArray {
   }
 
   swap(i, j) {
+    this.$element.insertBefore(this.nodes[j].$element, this.nodes[i].$element);
     this.select([i, j]);
+
     // @todo animation
     const temp = this.nodes[i];
     this.nodes[i] = this.nodes[j];
     this.nodes[j] = temp;
-  }
-
-  render() {
-    return `<div class="node-array">${this.nodes.map((node) => node.render()).join('')}</div>`;
   }
 }
 
