@@ -1,24 +1,24 @@
 class Node {
   constructor(value) {
-    this.value = value;
-    this.selected = false;
+    this.initElement(value);
+  }
+
+  initElement(value) {
+    this.$element = document.createElement('div');
+    this.$element.classList.add('node');
+    this.$element.appendChild(document.createTextNode(value));
   }
 
   select() {
-    this.selected = true;
+    this.$element.classList.add('selected');
   }
 
   unselect() {
-    this.selected = false;
+    this.$element.classList.remove('selected');
   }
-
-  render() {
-    return `<div class="node ${this.selected ? 'selected' : ''}">${this.value}</div>`;
-  }
-
   // for comparison operator
   valueOf() {
-    return this.value;
+    return parseFloat(this.$element.textContent);
   }
 }
 

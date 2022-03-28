@@ -4,23 +4,24 @@ import { $, randomInt } from './utils.js';
 
 class App {
   constructor() {
-    this.initalize();
+    this.init();
   }
 
-  initalize() {
+  init() {
     const $randomNodeBtn = $('#random-node-btn');
     const $runAlgoBtn = $('#run-algo-btn');
     const $display = $('#display');
 
     $randomNodeBtn.addEventListener('click', () => {
-      const randomNumbers = Array.from({ length: 10 }, () => randomInt());
-      this.array = new NodeArray(randomNumbers);
-      $display.innerHTML = this.array.render();
+      const randoms = Array.from({ length: 10 }, () => randomInt());
+      this.array = new NodeArray(randoms);
+
+      $display.replaceChildren(this.array.$element);
     });
 
     $runAlgoBtn.addEventListener('click', (event) => {
       const algoName = event.target.parentNode.querySelector('select').value;
-      this.run(algoName, 500);
+      this.run(algoName, 200);
     });
   }
 
@@ -39,11 +40,7 @@ class App {
     // timespan 마다 실행.
     const interval = setInterval(() => {
       const res = stepIter.next();
-
-      /**
-       * @todo 현재 매번 렌더링하는데 바뀐 부분만 렌더링하도록 변경하기
-       */
-      $('#display').innerHTML = this.array.render();
+      console.log(`step: ${res.value}`);
 
       if (res.done) {
         clearInterval(interval);

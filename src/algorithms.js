@@ -5,8 +5,8 @@ export function* BubbleSort(array) {
     for (let j = 0; j < array.length - 1; j++) {
       if (array.nodes[j] > array.nodes[j + 1]) {
         array.swap(j, j + 1);
-        yield ++steps;
       }
+      yield ++steps;
     }
   }
 }
