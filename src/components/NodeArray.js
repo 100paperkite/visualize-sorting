@@ -1,45 +1,60 @@
+import Component from '../core/Component.js';
 import Node from './Node.js';
 import NodeState from './NodeState.js';
 
-class NodeArray {
-  #prevNodes = [];
+class NodeArray extends Component {
+  #nodesToReset = [];
+  setup({ numbers }) {
+    this.state = { numbers };
+  }
 
-  constructor(numbers) {
-    this.initElement(numbers);
+  template() {
+    const { length } = this.state.numbers;
+    return `<div class="node-array">
+              ${Array.from({ length }, (_, index) => `<div id="node-${index}"></div>`).join(' ')}
+            </div>`;
+  }
+
+  mounted() {
+    const $array = this.$element.querySelector('.node-array');
+
+    for (let id = 0; id < this.state.numbers.length; id++) {
+      const node = new Node($array.querySelector(`#node-${id}`), { value: this.state.numbers[id] });
+      this.$children.push(node);
+    }
   }
 
   get length() {
-    return this.nodes.length;
+    return this.$children.length;
   }
 
-  initElement(numbers) {
-    this.$element = document.createElement('div');
-    this.$element.classList.add('node-array');
-
-    this.nodes = numbers.map((number) => new Node(number));
-    this.nodes.forEach((node) => this.$element.appendChild(node.$element));
-  }
-
-  updateState(i, j, state) {
-    this.#prevNodes.forEach((index) => (this.nodes[index].state = NodeState.NONE));
-    this.nodes[i].state = state;
-    this.nodes[j].state = state;
-    this.#prevNodes = [i, j];
+  #manipulate(i, j, action) {
+    // 이전에 변경된 노드의 상태 되돌리기.
+    this.#nodesToReset.forEach((node) => node.setState({ state: NodeState.NONE }));
+    action();
+    this.#nodesToReset = [this.$children[i], this.$children[j]];
   }
 
   compare(i, j, comparator) {
-    this.updateState(i, j, NodeState.COMPARED);
-    return comparator(this.nodes[i], this.nodes[j]);
+    this.#manipulate(i, j, () => {
+      this.$children[i].setState({ state: NodeState.COMPARED });
+      this.$children[j].setState({ state: NodeState.COMPARED });
+    });
+
+    return comparator(this.$children[i], this.$children[j]);
   }
 
   swap(i, j) {
-    this.updateState(i, j, NodeState.SWAPPED);
-    this.$element.insertBefore(this.nodes[j].$element, this.nodes[i].$element);
+    this.#manipulate(i, j, () => {
+      this.$children[i].setState({ state: NodeState.SWAPPED });
+      this.$children[j].setState({ state: NodeState.SWAPPED });
 
-    // @todo animation
-    const temp = this.nodes[i];
-    this.nodes[i] = this.nodes[j];
-    this.nodes[j] = temp;
+      const { value: ithValue } = this.$children[i].state;
+      const { value: jthValue } = this.$children[j].state;
+
+      this.$children[i].setState({ value: jthValue });
+      this.$children[j].setState({ value: ithValue });
+    });
   }
 }
 
