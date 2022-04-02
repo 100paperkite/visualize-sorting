@@ -3,6 +3,8 @@
   --gray-2: rgb(226 232 240);
   --gray-3: rgb(209 213 219);
   --gray-4: rgb(156 163 175);
+  --gray-5: rgb(107 114 128);
+  --gray-6: rgb(75 85 99);
   --gray-8: rgb(31 41 55);
   --green-1: rgb(220 252 231);
   --red-1: rgb(255 228 230);
@@ -50,29 +52,35 @@ select:focus {
 }
 
 #display {
-  margin-top: auto;
-  margin-bottom: 40vh;
-  border-radius: 15px;
+  margin: auto 10px 40vh;
 }
 
 .node-array {
   margin: auto 10px;
   display: flex;
+  gap: 5px;
   align-items: flex-end;
-  flex-wrap: wrap;
   justify-content: center;
+}
+
+.node-array div {
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+.node p {
+  position: relative;
+  bottom: 42px;
 }
 
 .node {
   background-color: var(--gray-2);
+  color: var(--gray-5);
   border-radius: 5px;
-  margin: 10px;
-  padding: 5px 15px;
+  padding: 5px 5px;
   text-align: center;
-  font-size: 18px;
   font-weight: bold;
 
-  display: flex;
   align-items: center; /* Vertical center alignment */
   justify-content: center; /* Horizontal center alignment */
 }
