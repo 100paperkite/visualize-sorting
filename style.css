@@ -9,6 +9,7 @@
   --green-1: rgb(220 252 231);
   --red-1: rgb(255 228 230);
   --red-2: rgb(254 205 211);
+  --sky-4: rgb(147 197 253);
 }
 
 body {
@@ -25,6 +26,7 @@ header {
   align-items: center;
   justify-content: center;
   gap: 20px;
+  border-bottom: 1px solid var(--gray-2);
 }
 
 button {
@@ -43,7 +45,7 @@ select {
   border-radius: 5px;
   border: none;
   font-size: 18px;
-  background-color: var(--red-1);
+  background-color: var(--gray-1);
 }
 
 select:focus {
@@ -52,7 +54,7 @@ select:focus {
 }
 
 #display {
-  margin: auto 10px 40vh;
+  margin: auto 10px 1vh;
 }
 
 .node-array {
@@ -80,7 +82,7 @@ select:focus {
   padding: 5px 5px;
   text-align: center;
   font-weight: bold;
-
+  min-width: 15px;
   align-items: center; /* Vertical center alignment */
   justify-content: center; /* Horizontal center alignment */
 }
@@ -90,5 +92,5 @@ select:focus {
 }
 
 .node.swapped {
-  background-color: var(--red-1);
+  background-color: var(--sky-4);
 }

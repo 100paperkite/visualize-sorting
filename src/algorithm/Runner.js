@@ -3,6 +3,7 @@ import { SortAlgorithm, bubbleSort } from './algorithm.js';
 export default class AlgorithmRunner {
   #iter;
   #interval;
+  #callback;
   constructor(algorithm, array) {
     this.algorithm = algorithm;
     this.array = array;
@@ -10,7 +11,20 @@ export default class AlgorithmRunner {
     this.#interval = null;
   }
 
-  run(timespan) {
+  #setInterval(timespan, callback) {
+    if (callback) this.#callback = callback;
+
+    this.#interval = setInterval(() => {
+      const { done } = this.#iter.next();
+
+      if (done) {
+        clearInterval(this.#interval);
+        callback();
+      }
+    }, timespan);
+  }
+
+  run(timespan, callback) {
     switch (this.algorithm) {
       case SortAlgorithm.BUBBLE_SORT:
         this.#iter = bubbleSort(this.array);
@@ -20,25 +34,17 @@ export default class AlgorithmRunner {
         return;
     }
 
-    // timespan 마다 실행.
-    this.#interval = setInterval(() => {
-      const { done } = this.#iter.next();
+    this.#setInterval(timespan, callback);
+  }
 
-      if (done) {
-        clearInterval(this.#interval);
-      }
-    }, timespan);
+  stop() {
+    clearInterval(this.#interval);
+    if (this.#callback) this.#callback();
   }
 
   setSpeed(timespan) {
     // 속도 초기화
     clearInterval(this.#interval);
-    this.#interval = setInterval(() => {
-      const { done } = this.#iter.next();
-
-      if (done) {
-        clearInterval(this.#interval);
-      }
-    }, timespan);
+    this.#setInterval(timespan, this.#callback);
   }
 }
