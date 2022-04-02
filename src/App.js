@@ -26,6 +26,7 @@ class App extends Component {
   }
 
   mounted() {
+    this.$children = [];
     const numbers = Array.from({ length: this.state.length }, () => randomInt());
     const nodeArray = new NodeArray(this.$element.querySelector('#display'), { numbers });
     this.$children.push(nodeArray);

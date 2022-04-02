@@ -16,6 +16,7 @@ class NodeArray extends Component {
   }
 
   mounted() {
+    this.$children = [];
     const $array = this.$element.querySelector('.node-array');
 
     for (let id = 0; id < this.state.numbers.length; id++) {
