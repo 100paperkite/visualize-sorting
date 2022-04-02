@@ -19,12 +19,12 @@ class App extends Component {
                   )
                   .join('')}
               </select>
-              <button id="run-algo-btn" class="button" type="button">Run</button>
               <button id="random-node-btn" class="button" type="button">Random</button>
               <div>
                 <input type="range" id="sort-speed-range" name="speed" min="5" max="200" value="50" step="10">
                 <label for="speed">speed</label>
               </div>
+              <button id="run-algo-btn" class="button" type="button">Run</button>
             </header>
             <div id="display"></div>
           `;
@@ -45,6 +45,9 @@ class App extends Component {
     const { length } = this.state;
 
     $randomNodeBtn.addEventListener('click', () => {
+      this.algoRunner?.stop();
+      this.algoRunner = null;
+
       const randoms = Array.from({ length }, () => randomInt());
       this.$children[0].setState({ numbers: randoms });
     });
@@ -52,7 +55,11 @@ class App extends Component {
     $runAlgoBtn.addEventListener('click', (event) => {
       const algoName = event.target.parentNode.querySelector('select').value;
       this.algoRunner = new Runner(algorithm.SortAlgorithm[algoName], this.$children[0]);
-      this.algoRunner.run(5000 / $sortSpeedRange.value);
+
+      this.algoRunner.run(5000 / $sortSpeedRange.value, () => {
+        $runAlgoBtn.disabled = false;
+      });
+      $runAlgoBtn.disabled = true;
     });
 
     $sortSpeedRange.addEventListener('change', (event) => {

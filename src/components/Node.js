@@ -11,7 +11,7 @@ class Node extends Component {
 
   template() {
     const { state, value } = this.state;
-    return `<div class="node ${state.description.toLowerCase()}" style="height: ${value * 2.5}px">
+    return `<div class="node ${state.description.toLowerCase()}" style="height: ${value * 0.8}vh">
               <p>${value}</p>
             </div>`;
   }

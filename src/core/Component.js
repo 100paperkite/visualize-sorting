@@ -3,10 +3,10 @@ export default class Component {
   $element;
   $children;
 
-  constructor($element, $props) {
+  constructor($element, props) {
     this.$element = $element;
     this.$children = [];
-    this.setup($props);
+    this.setup(props);
     this.render();
     this.setEvent();
   }
