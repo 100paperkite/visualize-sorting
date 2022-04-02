@@ -51,7 +51,7 @@ select:focus {
 
 #display {
   margin-top: auto;
-  margin-bottom: 50vh;
+  margin-bottom: 40vh;
   border-radius: 15px;
 }
 
@@ -67,13 +67,18 @@ select:focus {
   background-color: var(--gray-2);
   border-radius: 5px;
   margin: 10px;
-  padding: 20px 30px;
+  padding: 5px 15px;
   text-align: center;
-  width: 30px;
+  font-size: 18px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center; /* Vertical center alignment */
+  justify-content: center; /* Horizontal center alignment */
 }
 
 .node.compared {
-  background-color: var(--gray-3);
+  background-color: var(--gray-4);
 }
 
 .node.swapped {

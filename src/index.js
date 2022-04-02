@@ -1,3 +1,5 @@
 import App from './App.js';
+import { $ } from './utils.js';
 
-new App();
+const $target = $('body');
+new App($target, { length: 15 });

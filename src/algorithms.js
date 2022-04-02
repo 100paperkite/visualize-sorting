@@ -1,4 +1,8 @@
-export function* BubbleSort(array) {
+export const SortAlgorithm = Object.freeze({
+  BUBBLE_SORT: Symbol('BUBBLE_SORT'),
+});
+
+export function* bubbleSort(array) {
   let steps = 0;
 
   for (let i = 0; i < array.length - 1; i++) {
