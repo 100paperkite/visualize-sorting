@@ -1,4 +1,4 @@
-import { SortAlgorithm, bubbleSort } from './algorithm.js';
+import { SortAlgorithm, bubbleSort, selectionSort, mergeSort } from './algorithm.js';
 
 export default class AlgorithmRunner {
   #iter;
@@ -29,8 +29,14 @@ export default class AlgorithmRunner {
       case SortAlgorithm.BUBBLE_SORT:
         this.#iter = bubbleSort(this.array);
         break;
+      case SortAlgorithm.SELECTION_SORT:
+        this.#iter = selectionSort(this.array);
+        break;
+      case SortAlgorithm.MERGE_SORT:
+        this.#iter = mergeSort(this.array);
+        break;
       default:
-        console.log(`${this.algorithm}은 구현되지 않았습니다.`);
+        console.log(`${this.algorithm.description}은 구현되지 않았습니다.`);
         return;
     }
 

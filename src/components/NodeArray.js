@@ -29,33 +29,81 @@ class NodeArray extends Component {
     return this.$children.length;
   }
 
-  #manipulate(i, j, action) {
+  get values() {
+    return this.$children.map((node) => node.state.value);
+  }
+
+  /**
+   *
+   * @param {number} index
+   * @returns {number} value of the node at index
+   */
+  at(index) {
+    return this.$children[index].state.value;
+  }
+
+  #manipulate(fn, ...indexes) {
     // 이전에 변경된 노드의 상태 되돌리기.
     this.#nodesToReset.forEach((node) => node.setState({ state: NodeState.NONE }));
-    action();
-    this.#nodesToReset = [this.$children[i], this.$children[j]];
+    fn();
+    this.#nodesToReset = indexes.map((index) => this.$children[index]);
   }
 
-  compare(i, j, comparator) {
-    this.#manipulate(i, j, () => {
-      this.$children[i].setState({ state: NodeState.COMPARED });
-      this.$children[j].setState({ state: NodeState.COMPARED });
-    });
+  /**
+   *  set values of the nodes at indexes
+   * @param {Array} values
+   * @param {Array} indexes
+   */
+  set(values, indexes) {
+    console.assert(values.length === indexes.length);
 
-    return comparator(this.$children[i], this.$children[j]);
+    this.#manipulate(() => {
+      indexes.forEach((index, valueIndex) =>
+        this.$children[index].setState({ value: values[valueIndex], state: NodeState.SWAPPED })
+      );
+    }, ...indexes);
   }
 
-  swap(i, j) {
-    this.#manipulate(i, j, () => {
-      this.$children[i].setState({ state: NodeState.SWAPPED });
-      this.$children[j].setState({ state: NodeState.SWAPPED });
+  /**
+   * compare the nodes at indexes
+   * @param {number} index1
+   * @param {number} index2
+   * @param {function} comparator
+   * @returns {boolean}
+   */
+  compare(index1, index2, comparator) {
+    this.#manipulate(
+      () => {
+        this.$children[index1].setState({ state: NodeState.COMPARED });
+        this.$children[index2].setState({ state: NodeState.COMPARED });
+      },
+      index1,
+      index2
+    );
 
-      const { value: ithValue } = this.$children[i].state;
-      const { value: jthValue } = this.$children[j].state;
+    return comparator(this.$children[index1], this.$children[index2]);
+  }
 
-      this.$children[i].setState({ value: jthValue });
-      this.$children[j].setState({ value: ithValue });
-    });
+  /**
+   * swap the nodes at indexes
+   * @param {number} index1
+   * @param {number} index2
+   */
+  swap(index1, index2) {
+    this.#manipulate(
+      () => {
+        this.$children[index1].setState({ state: NodeState.SWAPPED });
+        this.$children[index2].setState({ state: NodeState.SWAPPED });
+
+        const { value: firstValue } = this.$children[index1].state;
+        const { value: secondValue } = this.$children[index2].state;
+
+        this.$children[index1].setState({ value: secondValue });
+        this.$children[index2].setState({ value: firstValue });
+      },
+      index1,
+      index2
+    );
   }
 }
 
